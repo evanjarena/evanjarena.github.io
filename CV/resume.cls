@@ -16,6 +16,7 @@
 %
 % Created by Trey Hunner and modified by www.LaTeXTemplates.com
 %
+% Modified by Evan J. Arena 2025
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \ProvidesClass{resume}[2010/07/10 v0.9 Resume class]
@@ -34,6 +35,9 @@
 
 \def \name#1{\def\@name{#1}} % Defines the \name command to set name
 \def \@name {} % Sets \@name to empty by default
+
+\def \date#1{\def\@date{#1}} % Defines the \name command to set name
+\def \@date {~} % Sets \@name to empty by default
 
 \def \addressSep {$\diamond$} % Set default address separator to a diamond
 
@@ -72,6 +76,20 @@
   \endgroup
 }
 
+\def \printdate {
+  \begingroup
+  {\footnotesize
+    \hfill{\@date}{\parfillskip0pt\par}
+  }
+  \endgroup
+  \par
+  \addressskip
+}
+
+
+
+  
+
 %----------------------------------------------------------------------------------------
 %	PRINT THE HEADING LINES
 %----------------------------------------------------------------------------------------
@@ -79,6 +97,11 @@
 \let\ori@document=\document
 \renewcommand{\document}{
   \ori@document  % Begin document
+  \ifthenelse{\equal{@date}{\string ~}}{
+    %% Do this if it is undefined
+  }{
+    \printdate
+  }
   \printname % Print the name specified with \name
   \@ifundefined{@addressone}{}{ % Print the first address if specified
     \printaddress{\@addressone}}
